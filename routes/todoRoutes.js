@@ -8,7 +8,7 @@ const router = express.Router();
 // Create Todo
 router.post("/", async (req, res) => {
     try {
-        const todo = await Todo.create(req.body);
+        const todo = await Todo.create({ title: req.body.title });
         res.status(201).json(todo);
     } catch (err) {
         res.status(400).json({ error: err.message });
