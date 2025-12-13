@@ -17,6 +17,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use("/api/todos", todoRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to your Node.js + MongoDB Todo app!");
+});
+
 
 app.listen(3000, () => {
 console.log("Server running on port 3000");
