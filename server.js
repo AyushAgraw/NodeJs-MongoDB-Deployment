@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api/todos", todoRoutes);
 
 app.get("/", (req, res) => {
-    res.send("Welcome to your Node.js + MongoDB Todo app!");
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 
