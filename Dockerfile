@@ -3,7 +3,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY package*.json ./
+COPY app/package*.json ./
 RUN npm ci --production
 
 # Copy source code
