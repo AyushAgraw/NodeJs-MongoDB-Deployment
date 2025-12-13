@@ -1,28 +1,31 @@
-# ========================
-# Build Stage
-# ========================
+# Stage 1: Build
 FROM node:20-alpine AS builder
-
 WORKDIR /app
 
-# Install only prod dependencies
+# Install dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --production
 
-# Copy application source
-COPY src ./src
+# Copy source code
+COPY . .
 
-# ========================
-# Runtime Stage (Distroless)
-# ========================
-FROM gcr.io/distroless/nodejs20-debian12
+# Stage 2: Final
+FROM node:20-alpine
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-# Copy node_modules and app from builder
+# Copy only necessary artifacts
 COPY --from=builder /app /app
+COPY --from=builder /app/node_modules /app/node_modules
 
-# Distroless already runs as non-root
+# Change ownership
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
 EXPOSE 3000
-
-CMD ["src/server.js"]
+CMD ["node", "index.js"]
