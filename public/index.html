@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo App</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input { padding: 10px; width: 300px; font-size: 16px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 8px 0; border-bottom: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Todo App</h1>
+  <input id="todoInput" type="text" placeholder="Type a todo and press Enter">
+  <ul id="todoList"></ul>
+
+  <script>
+    const input = document.getElementById("todoInput");
+    const list = document.getElementById("todoList");
+
+    // Fetch todos from server
+    async function fetchTodos() {
+      const res = await fetch("/api/todos");
+      const todos = await res.json();
+      list.innerHTML = todos.map(todo => `<li>${todo.title}</li>`).join("");
+    }
+
+    fetchTodos();
+
+    // Add new todo on Enter key
+    input.addEventListener("keypress", async (e) => {
+      if (e.key === "Enter" && input.value.trim() !== "") {
+        await fetch("/api/todos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: input.value.trim() })
+        });
+        input.value = "";
+        fetchTodos();
+      }
+    });
+  </script>
+</body>
+</html>
