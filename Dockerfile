@@ -5,7 +5,6 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN apt-get update
 RUN apk add --no-cache git
 RUN git clone https://github.com/AyushAgraw/NodeJs-MongoDB-Deployment.git
 
