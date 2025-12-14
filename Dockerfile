@@ -5,15 +5,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 COPY . .
+
+#Install dependencies
 RUN apk update
 RUN apk add --no-cache npm
 RUN npm install
-
-# Copy dependency files
-# COPY package*.json ./
-
-# Copy application source
-
 
 # ===============================
 # Stage 2: Runtime image
