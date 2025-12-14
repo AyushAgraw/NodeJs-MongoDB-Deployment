@@ -6,10 +6,9 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 RUN apk add --no-cache git
-RUN git clone https://github.com/AyushAgraw/NodeJs-MongoDB-Deployment.git
 
 # Copy dependency files
-COPY package*.json ./
+# COPY package*.json ./
 
 # Copy application source
 COPY . .
@@ -26,7 +25,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # Copy app from builder
-COPY --from=builder /app/NodeJs-MongoDB-Deployment /app
+COPY --from=builder /app /app
 
 # Permissions
 RUN chown -R appuser:appgroup /app
