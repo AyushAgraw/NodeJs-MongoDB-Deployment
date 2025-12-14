@@ -5,13 +5,14 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN apk add --no-cache git
+RUN apk update
+RUN apk add --no-cache npm
+RUN npm install
 
 # Copy dependency files
 # COPY package*.json ./
 
 # Copy application source
-COPY . .
 
 
 # ===============================
@@ -29,10 +30,6 @@ COPY --from=builder /app /app
 
 # Permissions
 RUN chown -R appuser:appgroup /app
-
-RUN apk update
-RUN apk add --no-cache npm
-RUN npm install
 
 USER appuser
 
