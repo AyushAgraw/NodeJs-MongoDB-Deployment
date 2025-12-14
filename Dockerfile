@@ -6,7 +6,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 RUN apt update
-RUN apk add --no-cache npm git
+RUN apk add --no-cache git
 RUN git clone https://github.com/AyushAgraw/NodeJs-MongoDB-Deployment.git
 
 # Copy dependency files
@@ -31,6 +31,9 @@ COPY --from=builder /app/NodeJs-MongoDB-Deployment /app
 
 # Permissions
 RUN chown -R appuser:appgroup /app
+
+RUN apk add npm
+RUN npm install
 
 USER appuser
 
