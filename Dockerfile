@@ -4,7 +4,7 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app
-
+COPY . .
 RUN apk update
 RUN apk add --no-cache npm
 RUN npm install
