@@ -72,7 +72,7 @@ terraform apply --auto-approve
   2. Run the command:
 
 ```bash
-trivy image nodejs-deployment:v1
+sudo trivy image nodejs-deployment:v1
 ```
 
 ---
