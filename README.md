@@ -46,6 +46,37 @@ terraform apply --auto-approve
 
 ---
 
+## How It Works
+
+* Running `terraform apply` will create the complete AWS infrastructure including:
+
+  * VPC
+  * Subnet
+  * Route Table
+  * Internet Gateway (IGW)
+  * EC2 instance with security group
+  * Other necessary networking components
+
+* During instance creation, a shell script is executed which:
+
+  * Builds a multi-stage Docker container for the Node.js app
+  * Uses a non-root user inside the container
+  * Installs and runs `npm` inside the container
+  * Connects the app to a MongoDB Atlas database
+
+* The Node.js To-Do app hosted in the container can store and retrieve information from MongoDB, reflecting updates live on the website.
+
+* To perform a security scan using Trivy:
+
+  1. SSH into the EC2 instance
+  2. Run the command:
+
+```bash
+trivy image nodejs-deployment:v1
+```
+
+---
+
 ## Project Structure
 
 ```
@@ -70,7 +101,7 @@ NodeJs-MongoDB-Deployment/
 ## Notes
 
 * Ensure MongoDB connection details in `.env` are correct.
-* Terraform will create necessary AWS resources (EC2, Security Groups, Docker container, etc.) automatically.
+* Terraform will create all necessary AWS resources automatically.
 * App will be accessible via the public URL output by Terraform.
 
 ---
