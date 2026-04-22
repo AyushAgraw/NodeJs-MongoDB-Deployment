@@ -6,7 +6,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY . .
 
-#Install dependencies
+#Install dependencies like npm, etc.
 RUN apk update
 RUN apk add --no-cache npm
 RUN npm install
